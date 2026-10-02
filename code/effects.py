@@ -67,3 +67,22 @@ class FloatingText:
             img.set_alpha(alpha)
             rect = img.get_rect(center=(self.x, y))
             surf.blit(img, rect)
+
+class Blob:
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+        self.x = random.uniform(0, width)
+        self.y = random.uniform(0, height)
+        self.r = random.uniform(120, 220)
+        self.speed = random.uniform(0.05, 0.15)
+        self.phase = random.uniform(0, math.tau)
+        self.hue = random.random()
+
+    def draw(self, surf, t):
+        x = self.x + math.sin(t * self.speed + self.phase) * 80
+        y = self.y + math.cos(t * self.speed + self.phase) * 60
+        hue = (self.hue + t * 0.01) % 1.0
+        r, g, b = colorsys.hsv_to_rgb(hue, 0.6, 0.35)
+        col = (int(r * 255), int(g * 255), int(b * 255), 18)
+        pygame.draw.circle(surf, col, (int(x), int(y)), int(self.r))
